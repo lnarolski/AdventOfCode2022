@@ -3,6 +3,7 @@
 //
 
 #include <vector>
+#include <string>
 
 #ifndef ADVENTOFCODE2022_STAR2_H
 #define ADVENTOFCODE2022_STAR2_H

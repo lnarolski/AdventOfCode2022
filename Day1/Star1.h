@@ -6,6 +6,7 @@
 #define ADVENTOFCODE2022_STAR1_H
 
 #include <vector>
+#include <string>
 
 namespace Day1 {
 
