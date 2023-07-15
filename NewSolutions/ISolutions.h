@@ -2,9 +2,6 @@
 
 class ISolutions
 {
-private:
-    
-    
 public:
     virtual void Day2() = 0;
     virtual void Day3() = 0;

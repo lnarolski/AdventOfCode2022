@@ -1,9 +1,14 @@
 #include "ISolutions.h"
+#include <vector>
+#include <string>
 
 class Solutions : ISolutions
 {
 private:
+    template <typename T>
+    void Print(const T& collection);
     
+    std::vector<std::string> LoadTxtFile(const std::string& path);
     
 public:
     void Day2() override;
