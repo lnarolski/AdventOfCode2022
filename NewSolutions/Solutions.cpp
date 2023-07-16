@@ -145,9 +145,36 @@ void Solutions::Day2() noexcept
 
 void Solutions::Day3() noexcept
 {
-    std::vector<std::string> fileLines = LoadTxtFile("test.txt");
+//    std::vector<std::string> fileLines = LoadTxtFile("test.txt");
+    std::vector<std::string> fileLines = LoadTxtFile("adventofcode.com_2022_day_3_input.txt");
 
-    
+    long sum = 0;
+
+    for (const std::string& rucksack : fileLines)
+    {
+        bool found = false;
+        for (size_t i1 = 0; i1 < rucksack.size() && !found; ++i1)
+        {
+            for (size_t i2 = rucksack.size() / 2; i2 < rucksack.size() && !found; ++i2)
+            {
+                if (rucksack[i1] == rucksack[i2])
+                {
+                    if (std::isupper(rucksack[i1]))
+                    {
+                        sum += rucksack[i1] - 'A' + 27;
+                    }
+                    else
+                    {
+                        sum += rucksack[i1] - 'a' + 1;
+                    }
+
+                    found = true;
+                }
+            }
+        }
+    }
+
+    std::cout << "Day 3 Star 1: " << sum << std::endl;
 
     return;
 }
