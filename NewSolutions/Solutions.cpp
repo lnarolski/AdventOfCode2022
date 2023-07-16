@@ -268,5 +268,24 @@ void Solutions::Day4() noexcept
 
     std::cout << "Day 4 Star 1: " << pairsCount << std::endl;
 
+    pairsCount = 0;
+
+    for (const std::string& sectionAssignmentPair : fileLines)
+    {
+        auto pairs = Split(sectionAssignmentPair, ",");
+        auto pair1 = StringToPair(pairs[0], "-");
+        auto pair2 = StringToPair(pairs[1], "-");
+
+        if ((pair1.second <= pair2.second && pair1.second >= pair2.first) ||
+            (pair2.second <= pair1.second && pair2.second >= pair1.second) ||
+            (pair1.first <= pair2.second && pair1.first >= pair2.first) ||
+            (pair2.first <= pair1.second && pair2.first >= pair1.first))
+        {
+            ++pairsCount;
+        }
+    }
+
+    std::cout << "Day 4 Star 2: " << pairsCount << std::endl;
+
     return;
 }
