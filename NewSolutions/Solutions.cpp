@@ -1,6 +1,7 @@
 #include "Solutions.h"
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 
 template <typename T>
 void Solutions::Print(const T& collection)
@@ -148,6 +149,18 @@ void Solutions::Day3() noexcept
 //    std::vector<std::string> fileLines = LoadTxtFile("test.txt");
     std::vector<std::string> fileLines = LoadTxtFile("adventofcode.com_2022_day_3_input.txt");
 
+    auto CalculatePoints = [](const char& letter)
+    {
+        if (std::isupper(letter))
+        {
+            return letter - 'A' + 27;
+        }
+        else
+        {
+            return letter - 'a' + 1;
+        }
+    };
+
     long sum = 0;
 
     for (const std::string& rucksack : fileLines)
@@ -159,14 +172,7 @@ void Solutions::Day3() noexcept
             {
                 if (rucksack[i1] == rucksack[i2])
                 {
-                    if (std::isupper(rucksack[i1]))
-                    {
-                        sum += rucksack[i1] - 'A' + 27;
-                    }
-                    else
-                    {
-                        sum += rucksack[i1] - 'a' + 1;
-                    }
+                    sum += CalculatePoints(rucksack[i1]);
 
                     found = true;
                 }
@@ -175,6 +181,31 @@ void Solutions::Day3() noexcept
     }
 
     std::cout << "Day 3 Star 1: " << sum << std::endl;
+
+    sum = 0;
+
+    for (size_t i = 0; i < fileLines.size(); i += 3)
+    {
+        bool found = false;
+        for (size_t i1 = 0; i1 < fileLines[i].size() && !found; ++i1)
+        {
+            std::string::iterator result = std::find(fileLines[i + 1].begin(), fileLines[i + 1].end(), fileLines[i][i1]);
+            if (result == fileLines[i + 1].end())
+            {
+                continue;
+            }
+            result = std::find(fileLines[i + 2].begin(), fileLines[i + 2].end(), fileLines[i][i1]);
+            if (result == fileLines[i + 2].end())
+            {
+                continue;
+            }
+
+            found = true;
+            sum += CalculatePoints(fileLines[i][i1]);
+        }
+    }
+
+    std::cout << "Day 3 Star 2: " << sum << std::endl;
 
     return;
 }
