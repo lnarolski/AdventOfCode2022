@@ -9,11 +9,12 @@ private:
     void Print(const T& collection);
 
     [[nodiscard]] std::vector<std::string> LoadTxtFile(const std::string& path) noexcept;
+    [[nodiscard]] std::vector<std::string> Split(const std::string& string, const std::string& delimiter) noexcept;
     
 public:
     void Day2() noexcept override;
     void Day3() noexcept override;
-    void Day4() override {};
+    void Day4() noexcept override;
     void Day5() override {};
     void Day6() override {};
     void Day7() override {};

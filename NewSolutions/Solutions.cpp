@@ -26,6 +26,32 @@ void Solutions::Print(const T& collection)
     return toReturn;
 }
 
+[[nodiscard]] std::vector<std::string> Solutions::Split(const std::string& string, const std::string& delimiter) noexcept
+{
+    std::vector<std::string> toReturn{};
+
+    size_t strStart = 0;
+
+    try
+    {
+        size_t found = string.find(delimiter);
+        while (found != std::string::npos)
+        {
+            toReturn.push_back(string.substr(strStart, found - strStart));
+            strStart = found + delimiter.size();
+            found = string.find(delimiter, strStart);
+        }
+    }
+    catch (...)
+    {
+        std::cout << "Exception occured during Split method" << std::endl;
+    }
+
+    toReturn.push_back(string.substr(strStart));
+
+    return toReturn;
+}
+
 void Solutions::Day2() noexcept
 {
     //std::vector<std::string> fileVector = LoadTxtFile("test.txt");
@@ -206,6 +232,41 @@ void Solutions::Day3() noexcept
     }
 
     std::cout << "Day 3 Star 2: " << sum << std::endl;
+
+    return;
+}
+
+void Solutions::Day4() noexcept
+{
+    //std::vector<std::string> fileLines = LoadTxtFile("test.txt");
+    std::vector<std::string> fileLines = LoadTxtFile("adventofcode.com_2022_day_4_input.txt");
+
+    auto StringToPair = [](const std::string& string, const std::string& delimiter) -> std::pair<int, int>
+    {
+        std::pair<int, int> toReturn{};
+
+        toReturn.first = std::stoi(string);
+        toReturn.second = std::stoi(string.substr(string.find(delimiter) + delimiter.size()));
+
+        return toReturn;
+    };
+
+    long pairsCount = 0;
+
+    for (const std::string& sectionAssignmentPair : fileLines)
+    {
+        auto pairs = Split(sectionAssignmentPair, ",");
+        auto pair1 = StringToPair(pairs[0], "-");
+        auto pair2 = StringToPair(pairs[1], "-");
+
+        if ((pair1.first >= pair2.first && pair1.second <= pair2.second) ||
+            (pair2.first >= pair1.first && pair2.second <= pair1.second))
+        {
+            ++pairsCount;
+        }
+    }
+
+    std::cout << "Day 4 Star 1: " << pairsCount << std::endl;
 
     return;
 }
