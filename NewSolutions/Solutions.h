@@ -7,12 +7,12 @@ class Solutions : ISolutions
 private:
     template <typename T>
     void Print(const T& collection);
-    
-    std::vector<std::string> LoadTxtFile(const std::string& path);
+
+    [[nodiscard]] std::vector<std::string> LoadTxtFile(const std::string& path) noexcept;
     
 public:
-    void Day2() override;
-    void Day3() override {};
+    void Day2() noexcept override;
+    void Day3() noexcept override;
     void Day4() override {};
     void Day5() override {};
     void Day6() override {};

@@ -11,7 +11,7 @@ void Solutions::Print(const T& collection)
     }
 }
 
-std::vector<std::string> Solutions::LoadTxtFile(const std::string& path)
+[[nodiscard]] std::vector<std::string> Solutions::LoadTxtFile(const std::string& path) noexcept
 {
     std::vector<std::string> toReturn{};
     
@@ -25,7 +25,7 @@ std::vector<std::string> Solutions::LoadTxtFile(const std::string& path)
     return toReturn;
 }
 
-void Solutions::Day2()
+void Solutions::Day2() noexcept
 {
     //std::vector<std::string> fileVector = LoadTxtFile("test.txt");
     std::vector<std::string> fileVector = LoadTxtFile("adventofcode.com_2022_day_2_input.txt");
@@ -125,6 +125,8 @@ void Solutions::Day2()
                 else
                     return Shapes::Paper;
         }
+
+        return Shapes{};
     };
 
     points = 0;
@@ -137,6 +139,15 @@ void Solutions::Day2()
     }
 
     std::cout << "Day 2 Star 2: " << points << std::endl;
+
+    return;
+}
+
+void Solutions::Day3() noexcept
+{
+    std::vector<std::string> fileLines = LoadTxtFile("test.txt");
+
+    
 
     return;
 }

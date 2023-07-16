@@ -2,7 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "AOC"
+			"path" : "AOC.exe"
+		},
+		{
+			"path" : "AOC.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -35,7 +38,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.2 -fcolor-diagnostics"
+					"fragment" : "-g -fdiagnostics-color=always"
 				},
 				{
 					"fragment" : "-std=gnu++11"
@@ -69,12 +72,16 @@
 			{
 				"fragment" : "",
 				"role" : "flags"
+			},
+			{
+				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
+				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
 	},
 	"name" : "AOC",
-	"nameOnDisk" : "AOC",
+	"nameOnDisk" : "AOC.exe",
 	"paths" : 
 	{
 		"build" : ".",

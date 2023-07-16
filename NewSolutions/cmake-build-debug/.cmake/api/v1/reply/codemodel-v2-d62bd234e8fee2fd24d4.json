@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.24"
@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "AOC::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-AOC-Debug-98dfa68dacbe09e0ce0c.json",
+					"jsonFile" : "target-AOC-Debug-5631557f3de3076deb46.json",
 					"name" : "AOC",
 					"projectIndex" : 0
 				}
@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/lukasznarolski/Projects/AdventOfCode2022/NewSolutions/cmake-build-debug",
-		"source" : "/Users/lukasznarolski/Projects/AdventOfCode2022/NewSolutions"
+		"build" : "C:/Users/Lukasz/source/repos/AdventOfCode2022/NewSolutions/cmake-build-debug",
+		"source" : "C:/Users/Lukasz/source/repos/AdventOfCode2022/NewSolutions"
 	},
 	"version" : 
 	{
