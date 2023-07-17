@@ -324,6 +324,8 @@ void Solutions::Day5() noexcept
         }
     }
 
+    std::vector<std::stack<char>> stacksStar2(stacks);
+
     // Find solution
     for (int i = lineWithCratesNumbers + 2; i < fileLines.size(); ++i) {
         std::vector<std::string> cmd = Split(fileLines[i], " ");
@@ -338,6 +340,31 @@ void Solutions::Day5() noexcept
     // Print solution
     std::cout << "Day 5 Star 1: ";
     for (auto stack : stacks)
+    {
+        std::cout << stack.top();
+    }
+    std::cout << std::endl;
+
+    // Solution for CrateMover 9001
+    for (int i = lineWithCratesNumbers + 2; i < fileLines.size(); ++i) {
+        std::vector<std::string> cmd = Split(fileLines[i], " ");
+
+        std::stack<char> tmpStack{};
+        for (int j = 0; j < stoi(cmd[1]); ++j)
+        {
+            tmpStack.push(stacksStar2[stoi(cmd[3]) - 1].top());
+            stacksStar2[stoi(cmd[3]) - 1].pop();
+        }
+        for (int j = 0; j < stoi(cmd[1]); ++j)
+        {
+            stacksStar2[stoi(cmd[5]) - 1].push(tmpStack.top());
+            tmpStack.pop();
+        }
+    }
+
+    // Print solution
+    std::cout << "Day 5 Star 2: ";
+    for (auto stack : stacksStar2)
     {
         std::cout << stack.top();
     }
