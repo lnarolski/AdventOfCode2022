@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <stack>
 
 template <typename T>
 void Solutions::Print(const T& collection)
@@ -286,6 +287,61 @@ void Solutions::Day4() noexcept
     }
 
     std::cout << "Day 4 Star 2: " << pairsCount << std::endl;
+
+    return;
+}
+
+void Solutions::Day5() noexcept
+{
+    //std::vector<std::string> fileLines = LoadTxtFile("test.txt");
+    std::vector<std::string> fileLines = LoadTxtFile("adventofcode.com_2022_day_5_input.txt");
+
+    size_t lineWithCratesNumbers = 0;
+    for (int i = 0; i < fileLines.size(); ++i) {
+        if (fileLines[i].find("1") != std::string::npos)
+        {
+            lineWithCratesNumbers = i;
+            break;
+        }
+    }
+
+    std::vector<std::string> crateNumbersStr = Split(fileLines[lineWithCratesNumbers], "   ");
+    int lastCrateNumber = stoi(crateNumbersStr.back());
+
+    std::vector<std::stack<char>> stacks(lastCrateNumber);
+
+    // Fill crates
+    for (int i = lineWithCratesNumbers - 1; i >= 0; --i)
+    {
+        for (int j = 0; j < lastCrateNumber; ++j)
+        {
+            if (fileLines[i][4 * j + 1] == ' ')
+            {
+                continue;
+            }
+
+            stacks[j].push(fileLines[i][4 * j + 1]);
+        }
+    }
+
+    // Find solution
+    for (int i = lineWithCratesNumbers + 2; i < fileLines.size(); ++i) {
+        std::vector<std::string> cmd = Split(fileLines[i], " ");
+
+        for (int j = 0; j < stoi(cmd[1]); ++j)
+        {
+            stacks[stoi(cmd[5]) - 1].push(stacks[stoi(cmd[3]) - 1].top());
+            stacks[stoi(cmd[3]) - 1].pop();
+        }
+    }
+
+    // Print solution
+    std::cout << "Day 5 Star 1: ";
+    for (auto stack : stacks)
+    {
+        std::cout << stack.top();
+    }
+    std::cout << std::endl;
 
     return;
 }
