@@ -573,17 +573,17 @@ void Solutions::Day8() noexcept
 //    auto fileLines = Solutions::LoadTxtFile("test.txt");
     auto fileLines = Solutions::LoadTxtFile("adventofcode.com_2022_day_8_input.txt");
 
+    enum class Direction
+    {
+        up,
+        right,
+        down,
+        left
+    };
+
     auto IsVisible = [this]
             (const std::vector<std::string>& grid, const int& y, const int& x) -> bool
     {
-        enum class Direction
-        {
-            up,
-            right,
-            down,
-            left
-        };
-
         std::vector<Direction> directionsToCheck = { Direction::up, Direction::right, Direction::down, Direction::left };
 
         for (auto direction : directionsToCheck)
@@ -666,4 +666,111 @@ void Solutions::Day8() noexcept
     }
 
     std::cout << "Day 8 Star 1: " << visibleTrees << std::endl;
+
+    auto CalculateScenicScore = [this]
+            (const std::vector<std::string>& grid, const int& y, const int& x) -> unsigned int
+    {
+        std::vector<Direction> directionsToCheck = { Direction::up, Direction::right, Direction::down, Direction::left };
+        unsigned int scenicScore = 1;
+
+        for (auto direction : directionsToCheck)
+        {
+            unsigned int tempScenicScore = 0;
+            switch (direction)
+            {
+                case Direction::up:
+                {
+                    for (int i = y - 1; i >= 0; --i) {
+                        if (CharToInt(grid[i][x]) >= CharToInt(grid[y][x]))
+                        {
+                            ++tempScenicScore;
+                            break;
+                        }
+                        else
+                            ++tempScenicScore;
+                    }
+
+                    if (tempScenicScore != 0)
+                    {
+                        scenicScore *= tempScenicScore;
+                    }
+                    break;
+                }
+                case Direction::right:
+                {
+                    for (int i = x + 1; i < grid[0].size(); ++i)
+                    {
+                        if (CharToInt(grid[y][i]) >= CharToInt(grid[y][x]))
+                        {
+                            ++tempScenicScore;
+                            break;
+                        }
+                        else
+                            ++tempScenicScore;
+                    }
+
+                    if (tempScenicScore != 0)
+                    {
+                        scenicScore *= tempScenicScore;
+                    }
+                    break;
+                }
+                case Direction::down:
+                {
+                    for (int i = y + 1; i < grid.size(); ++i)
+                    {
+                        if (CharToInt(grid[i][x]) >= CharToInt(grid[y][x]))
+                        {
+                            ++tempScenicScore;
+                            break;
+                        }
+                        else
+                            ++tempScenicScore;
+                    }
+
+                    if (tempScenicScore != 0)
+                    {
+                        scenicScore *= tempScenicScore;
+                    }
+                    break;
+                }
+                case Direction::left:
+                {
+                    for (int i = x - 1; i >= 0; --i)
+                    {
+                        if (CharToInt(grid[y][i]) >= CharToInt(grid[y][x]))
+                        {
+                            ++tempScenicScore;
+                            break;
+                        }
+                        else
+                            ++tempScenicScore;
+                    }
+
+                    if (tempScenicScore != 0)
+                    {
+                        scenicScore *= tempScenicScore;
+                    }
+                    break;
+                }
+            }
+        }
+
+        return scenicScore;
+    };
+
+    unsigned int maxScenicScoreValue = 0;
+    for (size_t y = 0; y < fileLines.size() - 1; ++y)
+    {
+        for (size_t x = 0; x < fileLines[0].size() - 1; ++x)
+        {
+            unsigned int scenicScoreValue = CalculateScenicScore(fileLines, y, x);
+            if (scenicScoreValue > maxScenicScoreValue)
+            {
+                maxScenicScoreValue = scenicScoreValue;
+            }
+        }
+    }
+
+    std::cout << "Day 8 Star 2: " << maxScenicScoreValue << std::endl;
 };
