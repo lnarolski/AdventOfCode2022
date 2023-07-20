@@ -6,7 +6,9 @@ int main(int argc, char* argv[])
 //    solutions.Day2();
 //    solutions.Day3();
 //    solutions.Day4();
-    solutions.Day5();
+//    solutions.Day5();
+//    solutions.Day6();
+    solutions.Day7();
     
     return 0;
 }

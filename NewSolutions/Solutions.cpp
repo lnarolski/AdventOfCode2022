@@ -3,6 +3,7 @@
 #include <fstream>
 #include <algorithm>
 #include <stack>
+#include <limits>
 
 template <typename T>
 void Solutions::Print(const T& collection)
@@ -369,6 +370,195 @@ void Solutions::Day5() noexcept
         std::cout << stack.top();
     }
     std::cout << std::endl;
+
+    return;
+}
+
+void Solutions::Day6() noexcept
+{
+//    std::vector<std::string> fileLines = LoadTxtFile("test.txt"); // 7
+//    std::vector<std::string> fileLines = LoadTxtFile("test2.txt"); // 5
+//    std::vector<std::string> fileLines = LoadTxtFile("test3.txt"); // 6
+//    std::vector<std::string> fileLines = LoadTxtFile("test4.txt"); // 10
+//    std::vector<std::string> fileLines = LoadTxtFile("test5.txt"); // 11
+    std::vector<std::string> fileLines = LoadTxtFile("adventofcode.com_2022_day_6_input.txt");
+
+    size_t foundIndex = 0;
+    for (int i = 3; i < fileLines[0].size(); ++i)
+    {
+        std::vector<char> temp(4);
+
+        std::copy(fileLines[0].begin() + i - 3, fileLines[0].begin() + i + 1, temp.begin());
+        std::sort(temp.begin(), temp.end());
+        std::vector<char>::iterator last = std::unique(temp.begin(), temp.end());
+        if (last == temp.end())
+        {
+            foundIndex = i + 1;
+            break;
+        }
+    }
+
+    std::cout << "Day 6 Star 1: " << foundIndex << std::endl;
+
+    foundIndex = 0;
+    for (int i = 13; i < fileLines[0].size(); ++i)
+    {
+        std::vector<char> temp(14);
+
+        std::copy(fileLines[0].begin() + i - 13, fileLines[0].begin() + i + 1, temp.begin());
+        std::sort(temp.begin(), temp.end());
+        std::vector<char>::iterator last = std::unique(temp.begin(), temp.end());
+        if (last == temp.end())
+        {
+            foundIndex = i + 1;
+            break;
+        }
+    }
+
+    std::cout << "Day 6 Star 2: " << foundIndex << std::endl;
+
+    return;
+}
+
+struct Element
+{
+    std::string name;
+    size_t size;
+    bool isDirectory;
+    std::vector<Element> elements;
+    Element* upperElement;
+};
+
+void UpdateSizes(Element* el, size_t size)
+{
+    if (el == nullptr)
+        return;
+
+    el->size += size;
+    UpdateSizes(el->upperElement, size);
+};
+
+size_t TotalSize(Element* root, const size_t limit)
+{
+    static size_t totalSize = 0;
+
+    for (auto el : root->elements)
+    {
+        if (el.isDirectory && el.size <= limit)
+            totalSize += el.size;
+
+        TotalSize(&el, limit);
+    }
+
+    return totalSize;
+}
+
+size_t FindTheSmallestDirectory(Element* root, const size_t freeSpace)
+{
+    static const size_t neededSpace =  30000000 - freeSpace;
+    static size_t foundEnoughSize = std::numeric_limits<size_t>().max();
+
+    for (auto el : root->elements)
+    {
+        if (el.isDirectory && el.size > neededSpace && el.size < foundEnoughSize)
+            foundEnoughSize = el.size;
+
+        FindTheSmallestDirectory(&el, freeSpace);
+    }
+
+    return foundEnoughSize;
+}
+
+void Solutions::Day7() noexcept
+{
+//    auto fileLines = Solutions::LoadTxtFile("test.txt");
+    auto fileLines = Solutions::LoadTxtFile("adventofcode.com_2022_day_7_input.txt");
+
+    Element filesTree
+    {
+        "/",
+        0,
+        true,
+        {},
+        nullptr
+    };
+    auto CreateListOfFiles = [&fileLines, this](Element& root)
+    {
+        size_t linesI = 0;
+        Element* currentElement = &root;
+        std::vector<Element> elementsToAdd{};
+        bool directoryListing = false;
+        while (linesI < fileLines.size())
+        {
+            auto splittedLine = Split(fileLines[linesI], " ");
+
+            if (splittedLine[0] == "$")
+            {
+                if (directoryListing)
+                {
+                    currentElement->elements = elementsToAdd;
+
+                    elementsToAdd.clear();
+                    directoryListing = false;
+                }
+
+                if (splittedLine[1] == "cd")
+                {
+                    if (splittedLine[2] == "/")
+                    {
+                        currentElement = &root;
+                    }
+                    else if (splittedLine[2] == "..")
+                    {
+                        if (currentElement != nullptr && currentElement->upperElement != nullptr)
+                            currentElement = currentElement->upperElement;
+                    }
+                    else
+                    {
+                        auto it = std::find_if(currentElement->elements.begin(), currentElement->elements.end(), [&splittedLine](const Element& el) { return el.name == splittedLine[2]; });
+                        if (it != currentElement->elements.end())
+                            currentElement = &(*it);
+                    }
+                }
+                else if (splittedLine[1] == "ls")
+                {
+                    directoryListing = true;
+                }
+
+                ++linesI;
+            }
+            else
+            {
+                Element temp{};
+                temp.upperElement = currentElement;
+                temp.name = splittedLine[1];
+
+                if (splittedLine[0] != "dir")
+                {
+                    temp.isDirectory = false;
+                    size_t tempSize = stoi(splittedLine[0]);
+                    temp.size = tempSize;
+                    UpdateSizes(currentElement, tempSize);
+                }
+                else
+                {
+                    temp.isDirectory = true;
+                }
+
+                elementsToAdd.push_back(temp);
+
+                ++linesI;
+            }
+        }
+    };
+
+    CreateListOfFiles(filesTree);
+
+    std::cout << "Day 7 Star 1: " << TotalSize(&filesTree, 100000) << std::endl;
+
+    size_t freeSpace = 70000000 - filesTree.size;
+
+    std::cout << "Day 7 Star 2: " << FindTheSmallestDirectory(&filesTree, freeSpace) << std::endl;
 
     return;
 }
