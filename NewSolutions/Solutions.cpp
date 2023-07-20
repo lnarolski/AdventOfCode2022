@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <stack>
 #include <limits>
+#include <set>
 
 template <typename T>
 void Solutions::Print(const T& collection)
@@ -774,3 +775,66 @@ void Solutions::Day8() noexcept
 
     std::cout << "Day 8 Star 2: " << maxScenicScoreValue << std::endl;
 };
+
+void Solutions::Day9() noexcept
+{
+    auto fileLines = Solutions::LoadTxtFile("test.txt");
+//    auto fileLines = Solutions::LoadTxtFile("adventofcode.com_2022_day_9_input.txt");
+
+    typedef std::pair<unsigned long, unsigned long> Coordinates; // first -> y, second -> x
+
+    Coordinates head{0, 0}, tail{0, 0};
+
+    std::set<Coordinates> visitedByTail{};
+    visitedByTail.insert(tail);
+
+    auto CalculateDistance = [](const Coordinates& head, const Coordinates& tail) -> double
+    {
+        return sqrt(pow(head.first - tail.first, 2.0) + pow(head.second - tail.second, 2.0));
+    };
+
+    auto FixTail = [CalculateDistance](Coordinates& head, Coordinates& tail)
+    {
+        if ((int)CalculateDistance(head, tail) > 1)
+        {
+            if (head.first != tail.first && head.second != tail.second)
+            {
+                if (labs(head.first - tail.first) == 2)
+                {
+                    if (head.second > tail.second)
+                    {
+                        tail.first = head.first - ;
+                        tail.second = head.second;
+                    }
+                    else // head.second < tail.second
+                    {
+
+                    }
+                }
+            }
+        }
+    };
+
+    for (auto line : fileLines)
+    {
+        switch (line[0])
+        {
+            case 'U':
+                --head.first;
+                break;
+            case 'R':
+
+                break;
+            case 'D':
+
+                break;
+            case 'L':
+
+                break;
+        }
+        FixTail(head, tail);
+        visitedByTail.insert(tail);
+    }
+
+    std::cout << "Day 9 Star 1: " << visitedByTail.size() << std::endl;
+}

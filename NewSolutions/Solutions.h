@@ -20,7 +20,7 @@ public:
     void Day6() noexcept override;
     void Day7() noexcept override;
     void Day8() noexcept override;
-    void Day9() override {};
+    void Day9() noexcept override;
     void Day10() override {};
     void Day11() override {};
     void Day12() override {};

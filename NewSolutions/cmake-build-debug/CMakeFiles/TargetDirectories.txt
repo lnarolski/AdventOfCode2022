@@ -1,3 +1,3 @@
-C:/Users/Lukasz/source/repos/AdventOfCode2022/NewSolutions/cmake-build-debug/CMakeFiles/AOC.dir
-C:/Users/Lukasz/source/repos/AdventOfCode2022/NewSolutions/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Lukasz/source/repos/AdventOfCode2022/NewSolutions/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/lukasznarolski/Projects/AdventOfCode2022/NewSolutions/cmake-build-debug/CMakeFiles/AOC.dir
+/Users/lukasznarolski/Projects/AdventOfCode2022/NewSolutions/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/lukasznarolski/Projects/AdventOfCode2022/NewSolutions/cmake-build-debug/CMakeFiles/rebuild_cache.dir
