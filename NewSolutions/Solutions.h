@@ -10,6 +10,7 @@ private:
 
     [[nodiscard]] std::vector<std::string> LoadTxtFile(const std::string& path) noexcept;
     [[nodiscard]] std::vector<std::string> Split(const std::string& string, const std::string& delimiter) noexcept;
+    [[nodiscard]] int CharToInt(const char& c) noexcept;
     
 public:
     void Day2() noexcept override;
@@ -18,7 +19,7 @@ public:
     void Day5() noexcept override;
     void Day6() noexcept override;
     void Day7() noexcept override;
-    void Day8() override {};
+    void Day8() noexcept override;
     void Day9() override {};
     void Day10() override {};
     void Day11() override {};

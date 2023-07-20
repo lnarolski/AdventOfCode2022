@@ -54,6 +54,11 @@ void Solutions::Print(const T& collection)
     return toReturn;
 }
 
+[[nodiscard]] int Solutions::CharToInt(const char& c) noexcept
+{
+    return static_cast<int>(c - '0');
+}
+
 void Solutions::Day2() noexcept
 {
     //std::vector<std::string> fileVector = LoadTxtFile("test.txt");
@@ -562,3 +567,103 @@ void Solutions::Day7() noexcept
 
     return;
 }
+
+void Solutions::Day8() noexcept
+{
+//    auto fileLines = Solutions::LoadTxtFile("test.txt");
+    auto fileLines = Solutions::LoadTxtFile("adventofcode.com_2022_day_8_input.txt");
+
+    auto IsVisible = [this]
+            (const std::vector<std::string>& grid, const int& y, const int& x) -> bool
+    {
+        enum class Direction
+        {
+            up,
+            right,
+            down,
+            left
+        };
+
+        std::vector<Direction> directionsToCheck = { Direction::up, Direction::right, Direction::down, Direction::left };
+
+        for (auto direction : directionsToCheck)
+        {
+            bool visibleDirection = true;
+            switch (direction)
+            {
+                case Direction::up:
+                {
+                    for (int i = y - 1; i >= 0 && visibleDirection; --i) {
+                        if (CharToInt(grid[i][x]) >= CharToInt(grid[y][x]))
+                            visibleDirection = false;
+                    }
+
+                    if (visibleDirection)
+                    {
+                        return true;
+                    }
+                    break;
+                }
+                case Direction::right:
+                {
+                    for (int i = x + 1; i < grid[0].size() && visibleDirection; ++i)
+                    {
+                        if (CharToInt(grid[y][i]) >= CharToInt(grid[y][x]))
+                            visibleDirection = false;
+                    }
+
+                    if (visibleDirection)
+                    {
+                        return true;
+                    }
+                    break;
+                }
+                case Direction::down:
+                {
+                    for (int i = y + 1; i < grid.size() && visibleDirection; ++i)
+                    {
+                        if (CharToInt(grid[i][x]) >= CharToInt(grid[y][x]))
+                            visibleDirection = false;
+                    }
+
+                    if (visibleDirection)
+                    {
+                        return true;
+                    }
+                    break;
+                }
+                case Direction::left:
+                {
+                    for (int i = x - 1; i >= 0 && visibleDirection; --i)
+                    {
+                        if (CharToInt(grid[y][i]) >= CharToInt(grid[y][x]))
+                            visibleDirection = false;
+                    }
+
+                    if (visibleDirection)
+                    {
+                        return true;
+                    }
+                    break;
+                }
+            }
+        }
+
+        return false;
+    };
+
+    size_t visibleTrees = 2 * fileLines.size() + 2 * fileLines[0].size() - 4;
+
+    for (size_t y = 1; y < fileLines.size() - 1; ++y)
+    {
+        for (size_t x = 1; x < fileLines[0].size() - 1; ++x)
+        {
+            if (IsVisible(fileLines, y, x))
+            {
+                ++visibleTrees;
+            }
+        }
+    }
+
+    std::cout << "Day 8 Star 1: " << visibleTrees << std::endl;
+};
