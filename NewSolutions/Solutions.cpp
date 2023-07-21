@@ -779,9 +779,10 @@ void Solutions::Day8() noexcept
 void Solutions::Day9() noexcept
 {
 //    auto fileLines = Solutions::LoadTxtFile("test.txt"); // 13
-//    auto fileLines = Solutions::LoadTxtFile("test2.txt"); // 13
+//    auto fileLines = Solutions::LoadTxtFile("test4.txt"); // 36
+//    auto fileLines = Solutions::LoadTxtFile("test2.txt"); // 2
 //    auto fileLines = Solutions::LoadTxtFile("test3.txt"); // 18
-    auto fileLines = Solutions::LoadTxtFile("adventofcode.com_2022_day_9_input.txt");
+    auto fileLines = Solutions::LoadTxtFile("adventofcode.com_2022_day_9_input.txt"); // ? 2626 too low
 
     typedef long coorSize;
     typedef std::pair<coorSize, coorSize> Coordinates; // first -> y, second -> x
@@ -858,7 +859,7 @@ void Solutions::Day9() noexcept
         }
     };
 
-    for (auto line : fileLines)
+    for (const auto line : fileLines)
     {
         for (size_t i = 0; i < atoi(&line[2]); ++i) {
             switch (line[0]) {
@@ -881,4 +882,43 @@ void Solutions::Day9() noexcept
     }
 
     std::cout << "Day 9 Star 1: " << visitedByTail.size() << std::endl;
+
+    const int numOfKnots = 9;
+
+    head = {0, 0}, tail = {0, 0};
+    std::vector<Coordinates> tails(numOfKnots, {0, 0});
+
+    visitedByTail = {};
+    visitedByTail.insert(tails.back());
+
+    for (const auto line : fileLines)
+    {
+        for (size_t i = 0; i < atoi(&line[2]); ++i) {
+            switch (line[0]) {
+                case 'U':
+                    --head.first;
+                    break;
+                case 'R':
+                    ++head.second;
+                    break;
+                case 'D':
+                    ++head.first;
+                    break;
+                case 'L':
+                    --head.second;
+                    break;
+            }
+            MoveTail(head, tails[0]);
+            for (int i = 0; i < tails.size() - 1; ++i)
+            {
+                MoveTail(tails[i], tails[i + 1]);
+            }
+            if (visitedByTail.insert(tails.back()).second)
+            {
+//                std::cout << tails.back().first << " " << tails.back().second << std::endl;
+            };
+        }
+    }
+
+    std::cout << "Day 9 Star 2: " << visitedByTail.size() << std::endl;
 }
