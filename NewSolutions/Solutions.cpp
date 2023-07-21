@@ -782,7 +782,8 @@ void Solutions::Day9() noexcept
 //    auto fileLines = Solutions::LoadTxtFile("test4.txt"); // 36
 //    auto fileLines = Solutions::LoadTxtFile("test2.txt"); // 2
 //    auto fileLines = Solutions::LoadTxtFile("test3.txt"); // 18
-    auto fileLines = Solutions::LoadTxtFile("adventofcode.com_2022_day_9_input.txt"); // ? 2626 too low
+//    auto fileLines = Solutions::LoadTxtFile("adventofcode.com_2022_day_9_input.txt"); // ? 2626 too low
+    auto fileLines = Solutions::LoadTxtFile("adventofcode.com_2022_day_9_input_copy.txt"); // 2445
 
     typedef long coorSize;
     typedef std::pair<coorSize, coorSize> Coordinates; // first -> y, second -> x
