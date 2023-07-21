@@ -778,10 +778,13 @@ void Solutions::Day8() noexcept
 
 void Solutions::Day9() noexcept
 {
-    auto fileLines = Solutions::LoadTxtFile("test.txt");
-//    auto fileLines = Solutions::LoadTxtFile("adventofcode.com_2022_day_9_input.txt");
+//    auto fileLines = Solutions::LoadTxtFile("test.txt"); // 13
+//    auto fileLines = Solutions::LoadTxtFile("test2.txt"); // 13
+//    auto fileLines = Solutions::LoadTxtFile("test3.txt"); // 18
+    auto fileLines = Solutions::LoadTxtFile("adventofcode.com_2022_day_9_input.txt");
 
-    typedef std::pair<unsigned long, unsigned long> Coordinates; // first -> y, second -> x
+    typedef long coorSize;
+    typedef std::pair<coorSize, coorSize> Coordinates; // first -> y, second -> x
 
     Coordinates head{0, 0}, tail{0, 0};
 
@@ -793,22 +796,62 @@ void Solutions::Day9() noexcept
         return sqrt(pow(head.first - tail.first, 2.0) + pow(head.second - tail.second, 2.0));
     };
 
-    auto FixTail = [CalculateDistance](Coordinates& head, Coordinates& tail)
+    auto MoveTail = [CalculateDistance](const Coordinates& head, Coordinates& tail)
     {
-        if ((int)CalculateDistance(head, tail) > 1)
+        int calculatedDistance = (int)CalculateDistance(head, tail);
+        if (calculatedDistance > 1)
         {
             if (head.first != tail.first && head.second != tail.second)
             {
-                if (labs(head.first - tail.first) == 2)
+                if (llabs(head.first - tail.first) == 2)
+                {
+                    if (head.first < tail.first)
+                    {
+                        tail.first = head.first + 1;
+                        tail.second = head.second;
+                    }
+                    else // head.first > tail.first
+                    {
+                        tail.first = head.first - 1;
+                        tail.second = head.second;
+                    }
+                }
+                else // labs(head.second - tail.second) == 2
+                {
+                    if (head.second < tail.second)
+                    {
+                        tail.first = head.first;
+                        tail.second = head.second + 1;
+                    }
+                    else // head.second > tail.second
+                    {
+                        tail.first = head.first;
+                        tail.second = head.second - 1;
+                    }
+                }
+            }
+            else
+            {
+                if (head.first == tail.first)
                 {
                     if (head.second > tail.second)
                     {
-                        tail.first = head.first - ;
-                        tail.second = head.second;
+                        tail.second = head.second - 1;
                     }
                     else // head.second < tail.second
                     {
-
+                        tail.second = head.second + 1;
+                    }
+                }
+                else // head.second == tail.second
+                {
+                    if (head.first > tail.first)
+                    {
+                        tail.first = head.first - 1;
+                    }
+                    else // head.first < tail.first
+                    {
+                        tail.first = head.first + 1;
                     }
                 }
             }
@@ -817,23 +860,24 @@ void Solutions::Day9() noexcept
 
     for (auto line : fileLines)
     {
-        switch (line[0])
-        {
-            case 'U':
-                --head.first;
-                break;
-            case 'R':
-
-                break;
-            case 'D':
-
-                break;
-            case 'L':
-
-                break;
+        for (size_t i = 0; i < atoi(&line[2]); ++i) {
+            switch (line[0]) {
+                case 'U':
+                    --head.first;
+                    break;
+                case 'R':
+                    ++head.second;
+                    break;
+                case 'D':
+                    ++head.first;
+                    break;
+                case 'L':
+                    --head.second;
+                    break;
+            }
+            MoveTail(head, tail);
+            visitedByTail.insert(tail);
         }
-        FixTail(head, tail);
-        visitedByTail.insert(tail);
     }
 
     std::cout << "Day 9 Star 1: " << visitedByTail.size() << std::endl;
